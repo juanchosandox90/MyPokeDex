@@ -11,6 +11,7 @@ val constraintLayoutVersion = rootProject.extra.get("constraint_layout_version")
 val jUnitVersion = rootProject.extra.get("jUnit_version") as String
 val androidxTestJunitVersion = rootProject.extra.get("androidx_test_junit_version") as String
 val espressoCoreVersion = rootProject.extra.get("espresso_core_version") as String
+val navigationVersion = rootProject.extra.get("navigation_version") as String
 
 //Dependencies libraries
 
@@ -21,6 +22,8 @@ val constraintLayoutLibname = rootProject.extra.get("constraint_layout_libname")
 val jUnitLibName = rootProject.extra.get("jUnit_libname") as String
 val androidxTestJUnitLibName = rootProject.extra.get("androidx_test_junit_libname") as String
 val espressoCoreLibName = rootProject.extra.get("espresso_core_libname") as String
+val navigationKtxFragmentLibName = rootProject.extra.get("navigation_fragment_ktx") as String
+val navigationKtxUILibName = rootProject.extra.get("navigation_ui_ktx") as String
 
 android {
     namespace = "com.sandoval.mypokedex"
@@ -49,6 +52,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+
     kotlinOptions {
         jvmTarget = "11"
     }
@@ -60,6 +69,8 @@ dependencies {
     implementation("$appCompatLibName$appCompatVersion")
     implementation("$googleMaterialLibName$googleMaterialVersion")
     implementation("$constraintLayoutLibname$constraintLayoutVersion")
+    implementation("$navigationKtxFragmentLibName$navigationVersion")
+    implementation("$navigationKtxUILibName$navigationVersion")
     testImplementation("$jUnitLibName$jUnitVersion")
     androidTestImplementation("$androidxTestJUnitLibName$androidxTestJunitVersion")
     androidTestImplementation("$espressoCoreLibName$espressoCoreVersion")
