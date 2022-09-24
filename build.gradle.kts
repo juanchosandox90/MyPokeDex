@@ -3,6 +3,7 @@ buildscript {
 
     dependencies {
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.6.0-alpha01")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.42")
     }
 
     extra.apply {
@@ -16,6 +17,13 @@ buildscript {
         set("androidx_test_junit_version", "1.1.3")
         set("espresso_core_version", "3.4.0")
         set("navigation_version", "2.6.0-alpha01")
+        set("retrofit2_version", "2.9.0")
+        set("hilt_version", "2.42")
+        set("hilt_androidx_version", "1.0.0")
+        set("okhttp3_version", "5.0.0-alpha.2")
+        set("okHttp3_interceptor_version", "5.0.0-alpha.2")
+        set("databinding_compiler_version", "3.2.0-alpha10")
+        set("databinding_commons_version", "7.3.0")
 
         //Dependencies Libraries name
         set("core_ktx_libname", "androidx.core:core-ktx:")
@@ -27,9 +35,25 @@ buildscript {
         set("espresso_core_libname", "androidx.test.espresso:espresso-core:")
 
         //Navigation libraries name
-        set("navigation_fragment_ktx", "androidx.navigation:navigation-fragment-ktx:")
-        set("navigation_ui_ktx", "androidx.navigation:navigation-ui-ktx:")
+        set("navigation_fragment_ktx_libname", "androidx.navigation:navigation-fragment-ktx:")
+        set("navigation_ui_ktx_libname", "androidx.navigation:navigation-ui-ktx:")
 
+        //Retrofit Libraries name
+        set("retrofit2_libname", "com.squareup.retrofit2:retrofit:")
+        set("retrofit2_gson_libname", "com.squareup.retrofit2:converter-gson:")
+
+        //Hilt Libraries name
+        set("hilt_libname", "com.google.dagger:hilt-android:")
+        set("hilt_google_compiler_libname", "com.google.dagger:hilt-android-compiler:")
+        set("hilt_androidx_compiler_libname", "androidx.hilt:hilt-compiler:")
+
+        //Okhttp3 Libraries name
+        set("okhttp3_libname", "com.squareup.okhttp3:okhttp:")
+        set("okhttp3_logging_libname", "com.squareup.okhttp3:logging-interceptor:")
+
+        //Databinding Libraries name
+        set("data_binding_compiler_libname", "com.android.databinding:compiler:")
+        set("data_binding_common_libname", "androidx.databinding:databinding-common:")
     }
 }
 plugins {
