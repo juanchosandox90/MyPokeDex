@@ -6,15 +6,26 @@ import com.sandoval.mypokedex.data.utils.Either
 import com.sandoval.mypokedex.domain.models.pokedex_list.DResult
 import com.sandoval.mypokedex.domain.repository.pokedex_list.IGetPokedexListRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class RemoteDataPokedexListRepository @Inject constructor(
     private val pokedexApiService: PokedexService
-): IGetPokedexListRepository {
+) : IGetPokedexListRepository {
 
-    override suspend fun getPokedexList(limit: Int): Flow<Either<Failure, List<DResult>>> {
-        // Repository will use kotlin flow to emit the data from the service
-        // Repository will use a helper util class Either.kt to throw a left or right result.
-        TODO("Not yet implemented")
+    override suspend fun getPokedexList(limit: Int): Flow<Either<Failure, List<DResult>>> = flow {
+        val res = pokedexApiService.getPokedexList(limit)
+        emit(
+            when (res.isSuccessful) {
+                true -> {
+                    res.body()?.let {
+                        it.results?.let { it1 -> Either.Right(it1.map { a -> a.toDomainObject() }) }
+                    } ?: Either.Left(Failure.DataError)
+                }
+                false -> {
+                    Either.Left(Failure.ServerError)
+                }
+            }
+        )
     }
 }
