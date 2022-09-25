@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.sandoval.mypokedex.databinding.FragmentPokedexDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PokedexDetailFragment : Fragment() {
 
     private var _fragmentPokedexDetailBinding: FragmentPokedexDetailBinding? = null

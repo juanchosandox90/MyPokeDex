@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.sandoval.mypokedex.R
 import com.sandoval.mypokedex.databinding.FragmentPokedexListBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PokedexListFragment : Fragment() {
     private var _fragmentPokedexListBinding: FragmentPokedexListBinding? = null
     private val fragmentPokedexListBinding get() = _fragmentPokedexListBinding!!
