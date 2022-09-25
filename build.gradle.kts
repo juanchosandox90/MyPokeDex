@@ -24,6 +24,18 @@ buildscript {
         set("okHttp3_interceptor_version", "5.0.0-alpha.2")
         set("databinding_compiler_version", "3.2.0-alpha10")
         set("databinding_commons_version", "7.3.0")
+        /*
+        Tests Versions of Tests Libraries
+        Android Arch
+        MockK
+        CoroutinesTest
+        Truth of Google
+         */
+        set("android_arch_test_version", "2.1.0")
+        set("mockk_version", "1.12.3")
+        set("coroutines_test_version", "1.6.4")
+        set("truth_test_version", "1.1.2")
+
 
         //Dependencies Libraries name
         set("core_ktx_libname", "androidx.core:core-ktx:")
@@ -54,6 +66,13 @@ buildscript {
         //Databinding Libraries name
         set("data_binding_compiler_libname", "com.android.databinding:compiler:")
         set("data_binding_common_libname", "androidx.databinding:databinding-common:")
+
+        //Test Libraries for Unit tests
+        set("android_core_arch_test_libname","androidx.arch.core:core-testing:")
+        set("mockk_test_libname","io.mockk:mockk:")
+        set("coroutines_test_libname","org.jetbrains.kotlinx:kotlinx-coroutines-test:")
+        set("truth_libname","com.google.truth:truth:")
+
     }
 }
 plugins {
