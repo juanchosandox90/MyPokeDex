@@ -35,6 +35,12 @@ val okhttp3InterceptorVersion = rootProject.extra.get("okHttp3_interceptor_versi
 val databindingCompilerVersion = rootProject.extra.get("databinding_compiler_version") as String
 val databindingCommonVersion = rootProject.extra.get("databinding_commons_version") as String
 
+//Unit tests versions
+val androidArchTestVersion = rootProject.extra.get("android_arch_test_version") as String
+val mockkVersion = rootProject.extra.get("mockk_version") as String
+val coroutinesTestVersion = rootProject.extra.get("coroutines_test_version") as String
+val truthTestVersion = rootProject.extra.get("truth_test_version") as String
+
 //Dependencies libraries
 
 val coreKtxLibName = rootProject.extra.get("core_ktx_libname") as String
@@ -44,6 +50,12 @@ val constraintLayoutLibname = rootProject.extra.get("constraint_layout_libname")
 val jUnitLibName = rootProject.extra.get("jUnit_libname") as String
 val androidxTestJUnitLibName = rootProject.extra.get("androidx_test_junit_libname") as String
 val espressoCoreLibName = rootProject.extra.get("espresso_core_libname") as String
+
+//Unit test
+val androidArchLibname = rootProject.extra.get("android_core_arch_test_libname") as String
+val mockkLibname = rootProject.extra.get("mockk_test_libname") as String
+val coroutinesTestLibname = rootProject.extra.get("coroutines_test_libname") as String
+val truthTestLibname = rootProject.extra.get("truth_libname") as String
 
 //Navigation
 val navigationKtxFragmentLibName =
@@ -85,8 +97,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
     }
@@ -114,6 +125,12 @@ dependencies {
     testImplementation("$jUnitLibName$jUnitVersion")
     androidTestImplementation("$androidxTestJUnitLibName$androidxTestJunitVersion")
     androidTestImplementation("$espressoCoreLibName$espressoCoreVersion")
+
+    //Unit test
+    testImplementation("$androidArchLibname$androidArchTestVersion")
+    testImplementation("$mockkLibname$mockkVersion")
+    implementation("$coroutinesTestLibname$coroutinesTestVersion")
+    implementation("$truthTestLibname$truthTestVersion")
 
     //Navigation
     implementation("$navigationKtxFragmentLibName$navigationVersion")
