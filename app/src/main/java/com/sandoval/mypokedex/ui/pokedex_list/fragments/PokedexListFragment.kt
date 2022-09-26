@@ -3,10 +3,12 @@ package com.sandoval.mypokedex.ui.pokedex_list.fragments
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.sandoval.mypokedex.databinding.FragmentPokedexListBinding
 import com.sandoval.mypokedex.ui.base.BaseFragment
 import com.sandoval.mypokedex.ui.pokedex_list.adapter.PokedexListAdapter
+import com.sandoval.mypokedex.ui.pokedex_list.adapter.PokedexListItemListener
 import com.sandoval.mypokedex.ui.pokedex_list.viewmodel.GetPokedexListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,7 +21,13 @@ class PokedexListFragment : BaseFragment<FragmentPokedexListBinding>(
     private lateinit var pokedexListAdapter: PokedexListAdapter
 
     override fun initViews() {
-        pokedexListAdapter = PokedexListAdapter()
+        pokedexListAdapter = PokedexListAdapter(
+            onPokedexListItemListener = PokedexListItemListener {pokedexName ->
+                val action =
+                    PokedexListFragmentDirections.actionNavigationPokedexListFragmentToNavigationPokedexDetailFragment(pokedexName)
+                findNavController().navigate(action)
+            }
+        )
         pokedexListAdapter.apply {
             registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
                 override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
