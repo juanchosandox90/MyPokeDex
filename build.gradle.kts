@@ -24,6 +24,7 @@ buildscript {
         set("okHttp3_interceptor_version", "5.0.0-alpha.2")
         set("databinding_compiler_version", "3.2.0-alpha10")
         set("databinding_commons_version", "7.3.0")
+        set("lottie_version", "5.2.0")
         /*
         Tests Versions of Tests Libraries
         Android Arch
@@ -66,6 +67,9 @@ buildscript {
         //Databinding Libraries name
         set("data_binding_compiler_libname", "com.android.databinding:compiler:")
         set("data_binding_common_libname", "androidx.databinding:databinding-common:")
+
+        //Lottie library name
+        set("lottie_libname", "com.airbnb.android:lottie:")
 
         //Test Libraries for Unit tests
         set("android_core_arch_test_libname","androidx.arch.core:core-testing:")

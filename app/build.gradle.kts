@@ -35,6 +35,9 @@ val okhttp3InterceptorVersion = rootProject.extra.get("okHttp3_interceptor_versi
 val databindingCompilerVersion = rootProject.extra.get("databinding_compiler_version") as String
 val databindingCommonVersion = rootProject.extra.get("databinding_commons_version") as String
 
+//Lottie
+val lottieVersion = rootProject.extra.get("lottie_version") as String
+
 //Unit tests versions
 val androidArchTestVersion = rootProject.extra.get("android_arch_test_version") as String
 val mockkVersion = rootProject.extra.get("mockk_version") as String
@@ -78,6 +81,9 @@ val okhttp3LoggingLibname = rootProject.extra.get("okhttp3_logging_libname") as 
 //Databinding
 val databindingCompilerLibname = rootProject.extra.get("data_binding_compiler_libname") as String
 val databindingCommonLibname = rootProject.extra.get("data_binding_common_libname") as String
+
+//Lottie
+val lottieLibname = rootProject.extra.get("lottie_libname") as String
 
 android {
     namespace = "com.sandoval.mypokedex"
@@ -154,4 +160,7 @@ dependencies {
     //Databinding
     kapt("$databindingCompilerLibname$databindingCompilerVersion")
     kapt("$databindingCommonLibname$databindingCommonVersion")
+
+    //Lottie
+    implementation("$lottieLibname$lottieVersion")
 }
