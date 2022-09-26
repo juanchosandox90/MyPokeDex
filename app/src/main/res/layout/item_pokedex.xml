@@ -11,6 +11,11 @@
         <variable
             name="results"
             type="com.sandoval.mypokedex.domain.models.pokedex_list.DResult" />
+
+        <variable
+            name="pokedexListener"
+            type="com.sandoval.mypokedex.ui.pokedex_list.adapter.PokedexListItemListener" />
+
     </data>
 
     <androidx.cardview.widget.CardView
@@ -20,6 +25,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="24dp"
+        android:onClick="@{()->pokedexListener.onPokedexListItemClicked(results.name)}"
         app:cardCornerRadius="12dp"
         app:cardElevation="2dp"
         app:cardPreventCornerOverlap="false">
@@ -55,9 +61,9 @@
                 android:gravity="center_horizontal"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
-                android:textSize="12sp"
                 android:text="@{results.name}"
                 android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

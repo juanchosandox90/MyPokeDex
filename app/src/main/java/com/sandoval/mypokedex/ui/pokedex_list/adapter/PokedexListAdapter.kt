@@ -25,7 +25,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class PokedexListAdapter :
+class PokedexListAdapter(
+    private val onPokedexListItemListener: PokedexListItemListener
+) :
     ListAdapter<PokedexListItems, RecyclerView.ViewHolder>(PokedexListDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
@@ -50,7 +52,7 @@ class PokedexListAdapter :
         when (holder) {
             is PokedexListPreviewViewHolder -> {
                 val pokedexItem = item as PokedexListItems.PokedexItem
-                holder.bind(pokedexItem.results)
+                holder.bind(pokedexItem.results, onPokedexListItemListener)
             }
         }
     }
@@ -73,9 +75,11 @@ class PokedexListAdapter :
         var picture: String? = ""
 
         fun bind(
-            results: DResult
+            results: DResult,
+            onPokedexListItemListener: PokedexListItemListener
         ) {
             binding.results = results
+            binding.pokedexListener = onPokedexListItemListener
             loadImage(binding, results)
             binding.executePendingBindings()
         }
