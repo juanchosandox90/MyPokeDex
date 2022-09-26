@@ -174,4 +174,6 @@ dependencies {
     //Glide
     implementation("$glideLibname$glideVersion")
     annotationProcessor("$glideCompilerLibname$glideVersion")
+
+    implementation ("androidx.palette:palette-ktx:1.0.0")
 }

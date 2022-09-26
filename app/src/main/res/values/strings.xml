@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">My PokeDex</string>
+    <string name="search_pokemons_hint">Search Pokemons...</string>
 </resources>

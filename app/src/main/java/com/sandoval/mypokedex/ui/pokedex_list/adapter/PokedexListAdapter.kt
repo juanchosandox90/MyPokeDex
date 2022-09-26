@@ -1,9 +1,12 @@
 package com.sandoval.mypokedex.ui.pokedex_list.adapter
 
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +16,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.sandoval.mypokedex.R
 import com.sandoval.mypokedex.databinding.ItemPokedexBinding
 import com.sandoval.mypokedex.domain.models.pokedex_list.DResult
 import com.sandoval.mypokedex.ui.utils.getPicUrl
@@ -77,7 +81,7 @@ class PokedexListAdapter :
         }
 
         private fun loadImage(binding: ItemPokedexBinding, pokemonResult: DResult) {
-
+            var dominantColor = 0
             picture = pokemonResult.url?.getPicUrl()
 
             binding.apply {
@@ -102,6 +106,23 @@ class PokedexListAdapter :
                             dataSource: DataSource?,
                             isFirstResource: Boolean
                         ): Boolean {
+
+                            val drawable = resource as BitmapDrawable
+                            val bitmap = drawable.bitmap
+                            Palette.Builder(bitmap).generate {
+                                it?.let { palette ->
+                                    dominantColor = palette.getDominantColor(
+                                        ContextCompat.getColor(
+                                            root.context,
+                                            R.color.white
+                                        )
+                                    )
+
+                                    pokemonItemImage.setBackgroundColor(dominantColor)
+
+
+                                }
+                            }
                             progressCircular.isVisible = false
                             return false
                         }
