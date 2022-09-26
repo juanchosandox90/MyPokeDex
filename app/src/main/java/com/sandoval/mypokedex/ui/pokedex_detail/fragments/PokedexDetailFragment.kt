@@ -1,24 +1,19 @@
 package com.sandoval.mypokedex.ui.pokedex_detail.fragments
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.sandoval.mypokedex.databinding.FragmentPokedexDetailBinding
+import com.sandoval.mypokedex.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PokedexDetailFragment : Fragment() {
+class PokedexDetailFragment : BaseFragment<FragmentPokedexDetailBinding>(
+    FragmentPokedexDetailBinding::inflate
+) {
+    override fun initViews() {
 
-    private var _fragmentPokedexDetailBinding: FragmentPokedexDetailBinding? = null
-    private val fragmentPokedexDetailBinding get() = _fragmentPokedexDetailBinding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _fragmentPokedexDetailBinding =
-            FragmentPokedexDetailBinding.inflate(inflater, container, false)
-        return fragmentPokedexDetailBinding.root
     }
+
+    override fun initViewModels() {
+
+    }
+
 }
