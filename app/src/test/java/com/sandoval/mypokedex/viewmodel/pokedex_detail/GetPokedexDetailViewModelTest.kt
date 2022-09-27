@@ -47,6 +47,9 @@ class GetPokedexDetailViewModelTest : UnitTest() {
                     )
                 )
             ),
+            sprites = DSprites(
+                front_default = ".url"
+            )
         )
 
         getPokedexDetailViewModel = GetPokedexDetailViewModel(getPokedexDetailUseCase)

@@ -57,6 +57,9 @@ class GetPokedexDetailUseCaseTest : UnitTest() {
                                 )
                             )
                         ),
+                        sprites = DSprites(
+                            front_default = ".url"
+                        )
                     )
                 )
             )
