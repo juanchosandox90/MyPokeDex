@@ -4,7 +4,9 @@ import com.google.gson.GsonBuilder
 import com.sandoval.mypokedex.BuildConfig
 import com.sandoval.mypokedex.commons.BASE_URL_POKEMON
 import com.sandoval.mypokedex.data.remote.api.PokedexService
+import com.sandoval.mypokedex.data.remote.repository.pokedex_detail.RemoteDataPokedexDetailRepository
 import com.sandoval.mypokedex.data.remote.repository.pokedex_list.RemoteDataPokedexListRepository
+import com.sandoval.mypokedex.domain.repository.pokedex_detail.IGetPokedexDetailRepository
 import com.sandoval.mypokedex.domain.repository.pokedex_list.IGetPokedexListRepository
 import dagger.Module
 import dagger.Provides
@@ -58,4 +60,9 @@ object AppModule {
     @Singleton
     fun providesGetPokedexList(remoteDataPokedexListRepository: RemoteDataPokedexListRepository): IGetPokedexListRepository =
         remoteDataPokedexListRepository
+
+    @Provides
+    @Singleton
+    fun providesGetPokedexDetail(remoteDataPokedexDetailRepository: RemoteDataPokedexDetailRepository): IGetPokedexDetailRepository =
+        remoteDataPokedexDetailRepository
 }
