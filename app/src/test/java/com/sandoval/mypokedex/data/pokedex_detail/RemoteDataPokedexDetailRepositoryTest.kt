@@ -54,6 +54,9 @@ class RemoteDataPokedexDetailRepositoryTest : UnitTest() {
                     )
                 )
             ),
+            sprites = Sprites(
+                front_default = ".url"
+            )
         )
     }
 
