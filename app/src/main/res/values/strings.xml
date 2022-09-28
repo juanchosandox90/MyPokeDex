@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">My PokeDex</string>
     <string name="search_pokemons_hint">Search Pokemons...</string>
+    <string name="abilities_title">Abilities</string>
+    <string name="type_title">Type</string>
+    <string name="moves_title">Moves</string>
 </resources>
