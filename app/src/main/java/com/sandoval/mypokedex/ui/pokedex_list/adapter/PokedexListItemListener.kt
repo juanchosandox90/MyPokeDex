@@ -1,8 +1,8 @@
 package com.sandoval.mypokedex.ui.pokedex_list.adapter
 
 class PokedexListItemListener(
-    val onPokedexListItemClickListener: (String) -> Unit
+    val onPokedexListItemClickListener: (String, String) -> Unit
 ) {
-    fun onPokedexListItemClicked(pokedexName: String) =
-        onPokedexListItemClickListener(pokedexName)
+    fun onPokedexListItemClicked(pokedexName: String, id: String) =
+        onPokedexListItemClickListener(pokedexName, id)
 }

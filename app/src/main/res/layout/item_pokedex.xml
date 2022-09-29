@@ -25,7 +25,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="24dp"
-        android:onClick="@{()->pokedexListener.onPokedexListItemClicked(results.name)}"
+        android:onClick="@{()->pokedexListener.onPokedexListItemClicked(results.name, results.url)}"
         app:cardCornerRadius="12dp"
         app:cardElevation="2dp"
         app:cardPreventCornerOverlap="false">

@@ -2,6 +2,7 @@ package com.sandoval.mypokedex.ui.pokedex_detail.fragments
 
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -24,6 +25,7 @@ import com.sandoval.mypokedex.ui.pokedex_detail.adapters.AbilitiesAdapter
 import com.sandoval.mypokedex.ui.pokedex_detail.adapters.MovesAdapter
 import com.sandoval.mypokedex.ui.pokedex_detail.adapters.TypesAdapter
 import com.sandoval.mypokedex.ui.pokedex_detail.viewmodel.GetPokedexDetailViewModel
+import com.sandoval.mypokedex.ui.utils.extractId
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,8 +40,12 @@ class PokedexDetailFragment : BaseFragment<FragmentPokedexDetailBinding>(
 
     private val args by navArgs<PokedexDetailFragmentArgs>()
     private var pokedexName: String? = null
+    private var idUrl: String? = null
     override fun initViews() {
         pokedexName = args.pokedexName
+        idUrl = args.id
+        val id = idUrl!!.extractId()
+        Log.d("Id", id.toString())
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = pokedexName
 
         abilitiesAdapter = AbilitiesAdapter()
