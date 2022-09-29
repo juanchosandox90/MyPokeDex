@@ -7,9 +7,11 @@ import com.sandoval.mypokedex.data.remote.api.PokedexService
 import com.sandoval.mypokedex.data.remote.repository.pokedex_detail.RemoteDataPokedexDetailRepository
 import com.sandoval.mypokedex.data.remote.repository.pokedex_evolution.RemoteDataPokedexEvolutionRepository
 import com.sandoval.mypokedex.data.remote.repository.pokedex_list.RemoteDataPokedexListRepository
+import com.sandoval.mypokedex.data.remote.repository.pokedex_location.RemoteDataPokedexLocationRepository
 import com.sandoval.mypokedex.domain.repository.pokedex_detail.IGetPokedexDetailRepository
 import com.sandoval.mypokedex.domain.repository.pokedex_evolution.IGetPokedexEvolutionRepository
 import com.sandoval.mypokedex.domain.repository.pokedex_list.IGetPokedexListRepository
+import com.sandoval.mypokedex.domain.repository.pokedex_location.IGetPokedexLocationRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -72,4 +74,9 @@ object AppModule {
     @Singleton
     fun providesGetPokedexEvolution(remoteDataPokedexEvolutionRepository: RemoteDataPokedexEvolutionRepository): IGetPokedexEvolutionRepository =
         remoteDataPokedexEvolutionRepository
+
+    @Provides
+    @Singleton
+    fun providesGetPokedexLocation(remoteDataPokedexLocationRepository: RemoteDataPokedexLocationRepository): IGetPokedexLocationRepository =
+        remoteDataPokedexLocationRepository
 }
