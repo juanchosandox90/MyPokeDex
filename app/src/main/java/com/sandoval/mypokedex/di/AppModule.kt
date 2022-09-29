@@ -1,5 +1,6 @@
 package com.sandoval.mypokedex.di
 
+import android.content.Context
 import com.google.gson.GsonBuilder
 import com.sandoval.mypokedex.BuildConfig
 import com.sandoval.mypokedex.commons.BASE_URL_POKEMON
@@ -15,11 +16,15 @@ import com.sandoval.mypokedex.domain.repository.pokedex_location.IGetPokedexLoca
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -31,16 +36,18 @@ object AppModule {
     fun providesBaseUrl() = BASE_URL_POKEMON
 
     @Provides
-    fun provideOkHttpClient() = if (BuildConfig.DEBUG) {
+    fun provideOkHttpClient(cache: Cache) = if (BuildConfig.DEBUG) {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         OkHttpClient.Builder()
             .readTimeout(15, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
+            .cache(cache)
             .build()
     } else {
         OkHttpClient.Builder()
             .readTimeout(15, TimeUnit.SECONDS)
+            .cache(cache)
             .build()
     }
 
@@ -59,6 +66,30 @@ object AppModule {
     @Singleton
     fun provideApiService(retrofit: Retrofit): PokedexService =
         retrofit.create(PokedexService::class.java)
+
+    /*Caching data */
+    @Provides
+    @Singleton
+    fun provideCache(@ApplicationContext appContext: Context): Cache {
+
+        return Cache(
+            File(appContext.applicationContext.cacheDir, "pokemon_cache"),
+            10 * 1024 * 1024
+        )
+    }
+
+    private val cacheInterceptor = object : Interceptor {
+        @Throws(IOException::class)
+        override fun intercept(chain: Interceptor.Chain): Response {
+            val response: Response = chain.proceed(chain.request())
+            val cacheControl = CacheControl.Builder()
+                .maxAge(30, TimeUnit.DAYS)
+                .build()
+            return response.newBuilder()
+                .header("Cache-Control", cacheControl.toString())
+                .build()
+        }
+    }
 
     @Provides
     @Singleton
