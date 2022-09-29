@@ -1,6 +1,5 @@
 package com.sandoval.mypokedex.ui.pokedex_list.fragments
 
-import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
@@ -62,22 +61,19 @@ class PokedexListFragment : BaseFragment<FragmentPokedexListBinding>(
             when {
                 it.loading -> {
                     showLoading()
-                    Log.d("PokedexList", "Loading...")
                 }
                 it.isEmpty -> {
                     hideLoading()
                     binding.pokedexList.visibility = View.GONE
-                    Log.d("PokedexList Empty", "Empty...")
                 }
                 it.pokedexList != null -> {
                     hideLoading()
                     pokedexListAdapter.submitPokedexList(it.pokedexList)
-                    Log.d("PokedexList", it.pokedexList.toString())
                 }
                 it.errorMessage != null -> {
                     hideLoading()
                     binding.pokedexList.visibility = View.GONE
-                    Log.e("PokedexList Error", it.errorMessage.toString())
+                    setupGeneralErrorView()
                 }
             }
         }
@@ -94,5 +90,15 @@ class PokedexListFragment : BaseFragment<FragmentPokedexListBinding>(
 
     private fun hideLoading() {
         binding.loadingSpinner.loadingContainer.visibility = View.GONE
+    }
+
+    private fun setupGeneralErrorView() {
+        binding.pokedexList.visibility = View.GONE
+        binding.generalError.generalIssues.visibility = View.VISIBLE
+        binding.generalError.reload.setOnClickListener {
+            getPokedexListViewModel.getResults(151)
+            binding.generalError.generalIssues.visibility = View.GONE
+            showLoading()
+        }
     }
 }

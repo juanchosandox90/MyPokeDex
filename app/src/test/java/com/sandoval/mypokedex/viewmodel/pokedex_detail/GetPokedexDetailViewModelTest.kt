@@ -4,6 +4,7 @@ import com.google.common.truth.Truth
 import com.sandoval.mypokedex.data.network.Failure
 import com.sandoval.mypokedex.data.utils.Either
 import com.sandoval.mypokedex.domain.models.pokedex_detail.*
+import com.sandoval.mypokedex.domain.models.pokedex_list.DResult
 import com.sandoval.mypokedex.domain.usecase.pokedex_detail.GetPokedexDetailUseCase
 import com.sandoval.mypokedex.ui.pokedex_detail.viewmodel.GetPokedexDetailViewModel
 import com.sandoval.mypokedex.utils.UnitTest
@@ -56,7 +57,7 @@ class GetPokedexDetailViewModelTest : UnitTest() {
     }
 
     @Test
-    fun `getPokedexList should return actual list`() {
+    fun `getPokedexDetail should return actual list`() {
         every { getPokedexDetailUseCase(any(), "Bulbasaur", any()) }.answers {
             lastArg<(Either<Failure, DPokedexDetailResponse>) -> Unit>()(Either.Right(pokedexDetail))
         }
@@ -66,5 +67,31 @@ class GetPokedexDetailViewModelTest : UnitTest() {
         Truth.assertThat(res.loading).isFalse()
         Truth.assertThat(res.isEmpty).isFalse()
         Truth.assertThat(res.pokedexDetail).isEqualTo(pokedexDetail)
+    }
+
+    @Test
+    fun `getPokedexDetail should show error view when error occurs`() {
+        every { getPokedexDetailUseCase(any(), "Bulbasaur", any()) }.answers {
+            lastArg<(Either<Failure, List<DResult>>) -> Unit>()(Either.Left(Failure.ServerError))
+        }
+        getPokedexDetailViewModel.getResults("Bulbasaur")
+        val res = getPokedexDetailViewModel.pokedexDetailViewModel.getOrAwaitValueTest()
+        Truth.assertThat(res.errorMessage).isNotNull()
+        Truth.assertThat(res.loading).isFalse()
+        Truth.assertThat(res.isEmpty).isFalse()
+        Truth.assertThat(res.pokedexDetail).isNull()
+    }
+
+    @Test
+    fun `getPokedexDetail should show error connection view when a error network connection occurs`() {
+        every { getPokedexDetailUseCase(any(), "Bulbasaur", any()) }.answers {
+            lastArg<(Either<Failure, List<DResult>>) -> Unit>()(Either.Left(Failure.NetworkConnection))
+        }
+        getPokedexDetailViewModel.getResults("Bulbasaur")
+        val res = getPokedexDetailViewModel.pokedexDetailViewModel.getOrAwaitValueTest()
+        Truth.assertThat(res.errorMessage).isNotNull()
+        Truth.assertThat(res.loading).isFalse()
+        Truth.assertThat(res.isEmpty).isFalse()
+        Truth.assertThat(res.pokedexDetail).isNull()
     }
 }

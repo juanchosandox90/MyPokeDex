@@ -148,10 +148,12 @@ class PokedexDetailFragment : BaseFragment<FragmentPokedexDetailBinding>(
                 it.pokedexDetail != null -> {
                     hideLoading()
                     loadImage(it.pokedexDetail)
+                    binding.detailNestedContainer.visibility = View.VISIBLE
                     val name = it.pokedexDetail.name.toString().replaceFirstChar { it.uppercase() }
                     binding.pokemonItemTitle.text = name
                 }
                 it.errorMessage != null -> {
+                    setupGeneralErrorView()
                     hideLoading()
                 }
             }
@@ -254,6 +256,18 @@ class PokedexDetailFragment : BaseFragment<FragmentPokedexDetailBinding>(
     private fun setupMovesRecycler() {
         binding.movesList.visibility = View.VISIBLE
         binding.movesList.adapter = movesAdapter
+    }
+
+    private fun setupGeneralErrorView() {
+        binding.detailNestedContainer.visibility = View.GONE
+        binding.generalError.generalIssues.visibility = View.VISIBLE
+        binding.generalError.reload.setOnClickListener {
+            getPokedexDetailViewModel.getResults(pokedexName!!)
+            getPokedexLocationViewModel.getPokedexLocation(id!!)
+            getPokedexEvolutionViewModel.getPokedexEvolution(id!!)
+            binding.generalError.generalIssues.visibility = View.GONE
+            showLoading()
+        }
     }
 
 }

@@ -7,6 +7,7 @@ import com.sandoval.mypokedex.domain.models.pokedex_evolution.DChain
 import com.sandoval.mypokedex.domain.models.pokedex_evolution.DEvolvesTo
 import com.sandoval.mypokedex.domain.models.pokedex_evolution.DPokedexEvolutionResponse
 import com.sandoval.mypokedex.domain.models.pokedex_evolution.DSpecies
+import com.sandoval.mypokedex.domain.models.pokedex_list.DResult
 import com.sandoval.mypokedex.domain.usecase.pokedex_evolution.GetPokedexEvolutionUseCase
 import com.sandoval.mypokedex.ui.pokedex_detail.viewmodel.GetPokedexEvolutionViewModel
 import com.sandoval.mypokedex.utils.UnitTest
@@ -58,5 +59,31 @@ class GetPokedexEvolutionViewModelTest : UnitTest() {
         Truth.assertThat(res.loading).isFalse()
         Truth.assertThat(res.isEmpty).isFalse()
         Truth.assertThat(res.pokedexEvolution).isEqualTo(pokedexEvolution)
+    }
+
+    @Test
+    fun `getPokedexEvolution should show error view when error occurs`() {
+        every { getPokedexEvolutionUseCase(any(), 1, any()) }.answers {
+            lastArg<(Either<Failure, DPokedexEvolutionResponse>) -> Unit>()(Either.Left(Failure.ServerError))
+        }
+        getPokedexEvolutionViewModel.getPokedexEvolution(1)
+        val res = getPokedexEvolutionViewModel.pokedexEvolutionViewModel.getOrAwaitValueTest()
+        Truth.assertThat(res.errorMessage).isNotNull()
+        Truth.assertThat(res.loading).isFalse()
+        Truth.assertThat(res.isEmpty).isFalse()
+        Truth.assertThat(res.pokedexEvolution).isNull()
+    }
+
+    @Test
+    fun `getPokedexEvolution should show error connection view when a error network connection occurs`() {
+        every { getPokedexEvolutionUseCase(any(), 1, any()) }.answers {
+            lastArg<(Either<Failure, DPokedexEvolutionResponse>) -> Unit>()(Either.Left(Failure.NetworkConnection))
+        }
+        getPokedexEvolutionViewModel.getPokedexEvolution(1)
+        val res = getPokedexEvolutionViewModel.pokedexEvolutionViewModel.getOrAwaitValueTest()
+        Truth.assertThat(res.errorMessage).isNotNull()
+        Truth.assertThat(res.loading).isFalse()
+        Truth.assertThat(res.isEmpty).isFalse()
+        Truth.assertThat(res.pokedexEvolution).isNull()
     }
 }
