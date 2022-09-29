@@ -28,6 +28,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="PokemonEvolutionLocationText">
+        <item name="android:textColor">@color/dark_blue</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="OptionsTitleText">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">18sp</item>

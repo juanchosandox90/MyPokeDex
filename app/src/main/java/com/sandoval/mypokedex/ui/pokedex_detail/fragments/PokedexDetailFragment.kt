@@ -25,6 +25,7 @@ import com.sandoval.mypokedex.ui.pokedex_detail.adapters.AbilitiesAdapter
 import com.sandoval.mypokedex.ui.pokedex_detail.adapters.MovesAdapter
 import com.sandoval.mypokedex.ui.pokedex_detail.adapters.TypesAdapter
 import com.sandoval.mypokedex.ui.pokedex_detail.viewmodel.GetPokedexDetailViewModel
+import com.sandoval.mypokedex.ui.pokedex_detail.viewmodel.GetPokedexEvolutionViewModel
 import com.sandoval.mypokedex.ui.utils.extractId
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,6 +35,7 @@ class PokedexDetailFragment : BaseFragment<FragmentPokedexDetailBinding>(
 ) {
 
     private val getPokedexDetailViewModel: GetPokedexDetailViewModel by viewModels()
+    private val getPokedexEvolutionViewModel: GetPokedexEvolutionViewModel by viewModels()
     private lateinit var abilitiesAdapter: AbilitiesAdapter
     private lateinit var typesAdapter: TypesAdapter
     private lateinit var movesAdapter: MovesAdapter
@@ -41,10 +43,11 @@ class PokedexDetailFragment : BaseFragment<FragmentPokedexDetailBinding>(
     private val args by navArgs<PokedexDetailFragmentArgs>()
     private var pokedexName: String? = null
     private var idUrl: String? = null
+    private var id: Int? = null
     override fun initViews() {
         pokedexName = args.pokedexName
         idUrl = args.id
-        val id = idUrl!!.extractId()
+        id = idUrl!!.extractId()
         Log.d("Id", id.toString())
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = pokedexName
 
@@ -82,6 +85,34 @@ class PokedexDetailFragment : BaseFragment<FragmentPokedexDetailBinding>(
     }
 
     override fun initViewModels() {
+
+        id?.let { getPokedexEvolutionViewModel.getPokedexEvolution(it) }
+
+        getPokedexEvolutionViewModel.pokedexEvolutionViewModel.observe(viewLifecycleOwner) {
+            when {
+                it.loading -> {
+                    showLoading()
+                }
+                it.isEmpty -> {
+                    hideLoading()
+                }
+                it.pokedexEvolution != null -> {
+                    hideLoading()
+                    val chain = it.pokedexEvolution.chain
+                    val evolves_to = chain?.evolves_to
+                    val species = evolves_to?.map { it.species }
+                    val name = species?.get(0)?.name
+                    binding.pokemonEvolution.text =
+                        "Evolution: ${name.toString().replaceFirstChar { it.uppercase() }}"
+                    binding.pokemonLocation.text =
+                        "Location: Kantoo"
+                }
+                it.errorMessage != null -> {
+                    hideLoading()
+                }
+            }
+        }
+
         getPokedexDetailViewModel.getResults(pokedexName!!)
         getPokedexDetailViewModel.pokedexDetailViewModel.observe(viewLifecycleOwner) {
             when {
