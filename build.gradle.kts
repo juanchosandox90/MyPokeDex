@@ -24,6 +24,8 @@ buildscript {
         set("okHttp3_interceptor_version", "5.0.0-alpha.2")
         set("databinding_compiler_version", "3.2.0-alpha10")
         set("databinding_commons_version", "7.3.0")
+        set("lottie_version", "5.2.0")
+        set("glide_version", "4.13.2")
         /*
         Tests Versions of Tests Libraries
         Android Arch
@@ -67,6 +69,14 @@ buildscript {
         set("data_binding_compiler_libname", "com.android.databinding:compiler:")
         set("data_binding_common_libname", "androidx.databinding:databinding-common:")
 
+        //Lottie library name
+        set("lottie_libname", "com.airbnb.android:lottie:")
+
+        //Glide library name
+        set("glide_core_libname", "com.github.bumptech.glide:glide:")
+        set("glide_compiler_libname", "com.github.bumptech.glide:compiler:")
+
+
         //Test Libraries for Unit tests
         set("android_core_arch_test_libname","androidx.arch.core:core-testing:")
         set("mockk_test_libname","io.mockk:mockk:")
@@ -75,6 +85,7 @@ buildscript {
 
     }
 }
+
 plugins {
     id("com.android.application") version "7.3.0" apply false
     id("com.android.library") version "7.3.0" apply false

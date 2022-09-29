@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">My PokeDex</string>
+    <string name="search_pokemons_hint">Search Pokemons...</string>
+    <string name="abilities_title">Abilities</string>
+    <string name="type_title">Type</string>
+    <string name="moves_title">Moves</string>
+    <string name="general_error_description">Sorry, please try again and it should be fixed</string>
+    <string name="try_again_button">Try again</string>
+    <string name="something_went_wrong_title">Something went wrong</string>
+    <string name="general_error_icon_description">general error icon</string>
 </resources>

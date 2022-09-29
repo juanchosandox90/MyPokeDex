@@ -17,7 +17,13 @@
     <fragment
         android:id="@+id/navigation_pokedex_detail_fragment"
         android:name="com.sandoval.mypokedex.ui.pokedex_detail.fragments.PokedexDetailFragment"
-        android:label="Pokemon Detail"
-        tools:layout="@layout/fragment_pokedex_detail" />
+        tools:layout="@layout/fragment_pokedex_detail">
+        <argument
+            android:name="pokedexName"
+            app:argType="string" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
 
 </navigation>
