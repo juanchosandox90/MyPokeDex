@@ -22,9 +22,9 @@ class PokedexListFragment : BaseFragment<FragmentPokedexListBinding>(
 
     override fun initViews() {
         pokedexListAdapter = PokedexListAdapter(
-            onPokedexListItemListener = PokedexListItemListener {pokedexName ->
+            onPokedexListItemListener = PokedexListItemListener {pokedexName, id ->
                 val action =
-                    PokedexListFragmentDirections.actionNavigationPokedexListFragmentToNavigationPokedexDetailFragment(pokedexName)
+                    PokedexListFragmentDirections.actionNavigationPokedexListFragmentToNavigationPokedexDetailFragment(pokedexName, id)
                 findNavController().navigate(action)
             }
         )

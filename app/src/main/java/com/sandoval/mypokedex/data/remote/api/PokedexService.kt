@@ -1,8 +1,10 @@
 package com.sandoval.mypokedex.data.remote.api
 
 import com.sandoval.mypokedex.commons.POKEMON_DETAIL_PATH
+import com.sandoval.mypokedex.commons.POKEMON_EVOLUTION_PATH
 import com.sandoval.mypokedex.commons.POKEMON_LIST_PATH
 import com.sandoval.mypokedex.data.models.pokedex_detail.PokedexDetailResponse
+import com.sandoval.mypokedex.data.models.pokedex_evolution.PokedexEvolutionResponse
 import com.sandoval.mypokedex.data.models.pokedex_list.PokedexListResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -22,4 +24,10 @@ interface PokedexService {
     suspend fun getPokedexDetail(
         @Path("name") name: String?
     ): Response<PokedexDetailResponse>
+
+    //Get Pokedex Evolution
+    @GET(POKEMON_EVOLUTION_PATH)
+    suspend fun getPokedexEvolution(
+        @Path("id") id: Int?
+    ): Response<PokedexEvolutionResponse>
 }
