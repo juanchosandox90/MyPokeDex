@@ -26,6 +26,7 @@ import com.sandoval.mypokedex.ui.pokedex_detail.adapters.MovesAdapter
 import com.sandoval.mypokedex.ui.pokedex_detail.adapters.TypesAdapter
 import com.sandoval.mypokedex.ui.pokedex_detail.viewmodel.GetPokedexDetailViewModel
 import com.sandoval.mypokedex.ui.pokedex_detail.viewmodel.GetPokedexEvolutionViewModel
+import com.sandoval.mypokedex.ui.pokedex_detail.viewmodel.GetPokedexLocationViewModel
 import com.sandoval.mypokedex.ui.utils.extractId
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,6 +37,7 @@ class PokedexDetailFragment : BaseFragment<FragmentPokedexDetailBinding>(
 
     private val getPokedexDetailViewModel: GetPokedexDetailViewModel by viewModels()
     private val getPokedexEvolutionViewModel: GetPokedexEvolutionViewModel by viewModels()
+    private val getPokedexLocationViewModel: GetPokedexLocationViewModel by viewModels()
     private lateinit var abilitiesAdapter: AbilitiesAdapter
     private lateinit var typesAdapter: TypesAdapter
     private lateinit var movesAdapter: MovesAdapter
@@ -87,6 +89,7 @@ class PokedexDetailFragment : BaseFragment<FragmentPokedexDetailBinding>(
     override fun initViewModels() {
 
         id?.let { getPokedexEvolutionViewModel.getPokedexEvolution(it) }
+        id?.let { getPokedexLocationViewModel.getPokedexLocation(it) }
 
         getPokedexEvolutionViewModel.pokedexEvolutionViewModel.observe(viewLifecycleOwner) {
             when {
@@ -104,8 +107,28 @@ class PokedexDetailFragment : BaseFragment<FragmentPokedexDetailBinding>(
                     val name = species?.get(0)?.name
                     binding.pokemonEvolution.text =
                         "Evolution: ${name.toString().replaceFirstChar { it.uppercase() }}"
+                    binding.pokemonLocation.text = "Location: Kantoo"
+                }
+                it.errorMessage != null -> {
+                    hideLoading()
+                }
+            }
+        }
+
+        getPokedexLocationViewModel.pokedexLocationViewModel.observe(viewLifecycleOwner) {
+            when {
+                it.loading -> {
+                    showLoading()
+                }
+                it.isEmpty -> {
+                    hideLoading()
+                }
+                it.pokedexLocation != null -> {
+                    hideLoading()
+                    val region = it.pokedexLocation.region
+                    val name = region?.name
                     binding.pokemonLocation.text =
-                        "Location: Kantoo"
+                        "Location: ${name.toString().replaceFirstChar { it.uppercase() }}"
                 }
                 it.errorMessage != null -> {
                     hideLoading()
@@ -174,9 +197,7 @@ class PokedexDetailFragment : BaseFragment<FragmentPokedexDetailBinding>(
         val picture = detail.sprites?.front_default
 
         binding.apply {
-            Glide.with(root)
-                .load(picture)
-                .transition(DrawableTransitionOptions.withCrossFade())
+            Glide.with(root).load(picture).transition(DrawableTransitionOptions.withCrossFade())
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
                         e: GlideException?,
@@ -202,8 +223,7 @@ class PokedexDetailFragment : BaseFragment<FragmentPokedexDetailBinding>(
                             it?.let { palette ->
                                 dominantColor = palette.getDominantColor(
                                     ContextCompat.getColor(
-                                        root.context,
-                                        R.color.white
+                                        root.context, R.color.white
                                     )
                                 )
 
@@ -216,8 +236,7 @@ class PokedexDetailFragment : BaseFragment<FragmentPokedexDetailBinding>(
                         return false
                     }
 
-                })
-                .into(pokemonItemImage)
+                }).into(pokemonItemImage)
 
         }
     }
