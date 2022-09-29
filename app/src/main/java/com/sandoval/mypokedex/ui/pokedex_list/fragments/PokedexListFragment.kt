@@ -2,6 +2,7 @@ package com.sandoval.mypokedex.ui.pokedex_list.fragments
 
 import android.util.Log
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -22,9 +23,12 @@ class PokedexListFragment : BaseFragment<FragmentPokedexListBinding>(
 
     override fun initViews() {
         pokedexListAdapter = PokedexListAdapter(
-            onPokedexListItemListener = PokedexListItemListener {pokedexName, id ->
+            onPokedexListItemListener = PokedexListItemListener { pokedexName, id ->
                 val action =
-                    PokedexListFragmentDirections.actionNavigationPokedexListFragmentToNavigationPokedexDetailFragment(pokedexName, id)
+                    PokedexListFragmentDirections.actionNavigationPokedexListFragmentToNavigationPokedexDetailFragment(
+                        pokedexName,
+                        id
+                    )
                 findNavController().navigate(action)
             }
         )
@@ -35,6 +39,21 @@ class PokedexListFragment : BaseFragment<FragmentPokedexListBinding>(
                 }
             })
         }
+
+        binding.searchView.setOnQueryTextListener(object :
+            SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                getPokedexListViewModel.filterWithQuery(query ?: "")
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                getPokedexListViewModel.filterWithQuery(newText ?: "")
+                return false
+            }
+
+        })
+
         setupPokedexListRecycler()
     }
 

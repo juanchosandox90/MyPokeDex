@@ -20,6 +20,15 @@ class GetPokedexListViewModel @Inject constructor(private val getPokedexListUseC
     private val _pokedexListViewModel = MutableLiveData<GetPokedexListView>()
     val pokedexListViewModel: LiveData<GetPokedexListView> get() = _pokedexListViewModel
 
+    private val _query = MutableLiveData<String>()
+    val query: LiveData<String> get() = _query
+
+    private val _listOriginalOfHoldings = MutableLiveData<MutableList<DResult>>()
+    val listOriginalOfHoldings: LiveData<MutableList<DResult>> get() = _listOriginalOfHoldings
+
+    private val _listFilteredOfHoldings = MutableLiveData<MutableList<DResult>>()
+    val listFilteredOfHoldings: LiveData<MutableList<DResult>> get() = _listFilteredOfHoldings
+
     init {
         getResults(151)
     }
@@ -49,6 +58,21 @@ class GetPokedexListViewModel @Inject constructor(private val getPokedexListUseC
         _pokedexListViewModel.value = GetPokedexListView(loading = false)
         _pokedexListViewModel.value =
             GetPokedexListView(errorMessage = failure.toString())
+    }
+
+    fun filterWithQuery(query: String) {
+        val currentQuery = _query.value ?: ""
+
+        if (query != currentQuery)
+            _query.value = query
+
+        val originalList = _listOriginalOfHoldings.value ?: mutableListOf()
+
+        _listFilteredOfHoldings.value =
+            if (query.isNotEmpty())
+                originalList.filter { it.name?.contains(query) ?: false }.toMutableList()
+            else
+                originalList
     }
 
     override fun onCleared() {
