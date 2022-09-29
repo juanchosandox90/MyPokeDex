@@ -46,4 +46,29 @@ class GetPokedexListViewModelTest : UnitTest() {
         Truth.assertThat(res.pokedexList).isEqualTo(pokedexList.map { it })
     }
 
+    @Test
+    fun `getPokedexList should show error view when error occurs`() {
+        every { getPokedexListUseCase(any(), 151, any()) }.answers {
+            lastArg<(Either<Failure, List<DResult>>) -> Unit>()(Either.Left(Failure.ServerError))
+        }
+        getPokedexListViewModel.getResults(151)
+        val res = getPokedexListViewModel.pokedexListViewModel.getOrAwaitValueTest()
+        Truth.assertThat(res.errorMessage).isNotNull()
+        Truth.assertThat(res.loading).isFalse()
+        Truth.assertThat(res.isEmpty).isFalse()
+        Truth.assertThat(res.pokedexList).isNull()
+    }
+
+    @Test
+    fun `getPokedexList should show error connection view when a error network connection occurs`() {
+        every { getPokedexListUseCase(any(), 151, any()) }.answers {
+            lastArg<(Either<Failure, List<DResult>>) -> Unit>()(Either.Left(Failure.NetworkConnection))
+        }
+        val res = getPokedexListViewModel.pokedexListViewModel.getOrAwaitValueTest()
+        Truth.assertThat(res.errorMessage).isNull()
+        Truth.assertThat(res.loading).isTrue()
+        Truth.assertThat(res.isEmpty).isFalse()
+        Truth.assertThat(res.pokedexList).isNull()
+    }
+
 }
